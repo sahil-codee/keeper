@@ -6,6 +6,7 @@ import './index.css'
 
 function App() {
 
+
     const [notes, setNotes] = useState([]);
 
     function addNote(note) {
@@ -14,6 +15,7 @@ function App() {
         });
     }
 
+    
     function deleteNote(id) {
         setNotes(prevNotes => {
           return prevNotes.filter((noteItem, index) => {
