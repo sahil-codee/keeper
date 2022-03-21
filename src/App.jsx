@@ -6,9 +6,8 @@ import './index.css'
 
 function App() {
 
-
     const [notes, setNotes] = useState([]);
-
+    
     function addNote(note) {
         setNotes(prevNotes => {
            return [...prevNotes, note]
