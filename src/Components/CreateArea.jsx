@@ -27,12 +27,26 @@ function CreateArea(props) {
         event.preventDefault();
     }
 
+    // const submitNote = async (e) => {
+
+    //     const {title, content} = note;
+
+    //      const res = await fetch("/lists", {
+    //          method: "POST",
+    //          body: JSON.stringify({
+    //             title, content
+    //          })
+    //      });
+
+    //     e.preventDefault();
+    // }
+
   return (
     <div>
-        <form>
+        <form method='POST'>
             <input type="text" name='title' onChange={handleChange} value={note.title} placeholder='Title' />
             <textarea name="content" onChange={handleChange} value={note.content} placeholder='Take a note....' rows="3"></textarea>
-            <button onClick={submitNote}>Add</button>
+            <button name='submit' value="submit" type='submit' onClick={submitNote}>Add</button>
         </form>
     </div>
   )
