@@ -4,8 +4,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require('mongoose');
+const cors = require("cors")
+
+
 
 const app = express();
+
 
 mongoose.connect('mongodb://localhost:27017/tasklistDB', {useNewUrlParser: true});
 
@@ -13,8 +17,11 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use(express.json());
+
 app.use(express.static("public"));
 
+app.use(cors());
 //TODO
 
 const listSchema = mongoose.Schema ({
@@ -28,27 +35,27 @@ const List = mongoose.model("List", listSchema);
 app.get("/lists", function(req, res) {
     List.find({}, function(err, foundLists){
         if(!err) {
-            res.send(foundLists) 
+            res.json(foundLists) 
         } else {
             res.send(err)
         }
     })
-});
+})
 
-app.post("/lists", function(req, res) {
+app.post("/keeper/notes/", function(req, res) {
+
+    const {title, content} = req.body;
 
     const list = new List ({
-        title: req.body.title,
-        content: req.body.content
-    })
+        title, content
+    }) 
 
-    list.save(function(err) {
-        if(!err) {
-            res.send("Successfully added a new list.")
-        } else {
-            res.send(err)
-        }
-    })
+	list.save();
+
+    res.json( req.body )
+
+
+
 })
 
 

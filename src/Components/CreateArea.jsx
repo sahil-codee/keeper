@@ -7,6 +7,7 @@ function CreateArea(props) {
         content: ""
     })
 
+
     function handleChange(event) {
         const {name, value} = event.target;
 
@@ -18,32 +19,34 @@ function CreateArea(props) {
         })
     }
 
-    function submitNote(event) {
+    // function addNote(event) {
+
+    //     event.preventDefault();
+    // }
+
+    const submitNote = async (event) => {
+        event.preventDefault();
         props.onAdd(note);
         setNote({
             title: '',
             content: ''
         })
-        event.preventDefault();
+        
+        const {title, content} = note;
+        
+         const res = await fetch("http://localhost:5000/keeper/notes/", {
+             method: "POST",
+             headers: {"content-type": "application/json"},
+             body: JSON.stringify({
+                title, content
+             })
+         });
+
     }
-
-    // const submitNote = async (e) => {
-
-    //     const {title, content} = note;
-
-    //      const res = await fetch("/lists", {
-    //          method: "POST",
-    //          body: JSON.stringify({
-    //             title, content
-    //          })
-    //      });
-
-    //     e.preventDefault();
-    // }
 
   return (
     <div>
-        <form method='POST'>
+        <form method='POST' >
             <input type="text" name='title' onChange={handleChange} value={note.title} placeholder='Title' />
             <textarea name="content" onChange={handleChange} value={note.content} placeholder='Take a note....' rows="3"></textarea>
             <button name='submit' value="submit" type='submit' onClick={submitNote}>Add</button>

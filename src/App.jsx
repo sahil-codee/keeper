@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import CreateArea from './Components/CreateArea'
 import Header from './Components/Header'
 import Note from './Components/Note'
@@ -14,12 +14,25 @@ function App() {
         });
     }
 
+    const fetchData = () => {
+        fetch("http://localhost:5000/lists")
+          .then(response => {
+            return response.json()
+          })
+          .then(data => {
+            setNotes(data)
+          })
+      }
+    
+      useEffect(() => {
+        fetchData()
+      }, [])
     
     function deleteNote(id) {
         setNotes(prevNotes => {
           return prevNotes.filter((noteItem, index) => {
                 return index !== id;
-            })
+            })  
         })
     }
 
